@@ -28,11 +28,11 @@ public class X_O_Enhanced {
        print_X_O(Allchar);
     
        
-//******************************start loop 1******************************//
+//******************************start loop 1******************************
 loop1: while(true)
        {
            
-    //------------------------start loop 2------------------------------//       
+    //------------------------start loop 2------------------------------      
     loop2: while(X_or_O.equals("X"))
            {
                //ask the player which row they want
@@ -106,8 +106,7 @@ loop1: while(true)
              
               //changing player to O
               X_or_O = "O";
-           }
-    //------------------------end loop 2------------------------------//       
+           } //------------------------end loop 2------------------------------     
      
     // check if anyone win
             if(round >= 9 && win == 0)
@@ -152,7 +151,7 @@ loop1: while(true)
             }
     //end check
     
-    //------------------------start loop 3------------------------------//       
+    //------------------------start loop 3------------------------------    
     loop3: while(X_or_O.equals("O"))
            {
                //ask the player which row they want
@@ -214,37 +213,26 @@ loop1: while(true)
                       //exit game
                       return;
                     }
-              }
+              } 
               //-----------------finished checking all probabilities---------------
 
             /* if no one win yet continue tha game until round 
             over or one of the player wins */
             
-             
              //increase the number of rounds
               round++;
              
               //changing player to X
               X_or_O = "X";
-           }
-    //------------------------end loop 3------------------------------//       
-       
-   
-        }      
-//******************************end loop 1******************************//      
+           } //------------------------end loop 3------------------------------       
+      
+        } //******************************end loop 1******************************     
       
                
     }
-//############################## END MAIN ##################################
-           
-  
-    
-    
-    
-    
-//************************************************************************
-                             //METHODES//
-//************************************************************************
+// END MAIN
+   
+//METHODES
 
     //player choice which row
     public static int row_choice(String X_or_O) {
