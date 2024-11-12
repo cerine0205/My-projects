@@ -20,7 +20,7 @@ public class X_O_Enhanced {
        // declare, creat and initialize an 2D aaray
        String[][] Allchar = Allchar_XO("|", row, coulmn);
        
-       //-------------cloning Allchar------ clear Allchar with out choice------------------------
+       //-------------cloning Allchar with out choice------------------------
        String[][] keepPlayingTable = clone(Allchar);
        //-------------------------------------------------------
        
