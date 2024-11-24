@@ -193,8 +193,7 @@ public class Final_Exam {
     {
        char[] arr = new char[100];
        
-       System.out.println("Enter character,"
-                             + " enter anything else to terminate"
+       System.out.println("Enter character, enter anything else to terminate"
                              + "\ninputting process: ");
        
        //let the user enter the character
