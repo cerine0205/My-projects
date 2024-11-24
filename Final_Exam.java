@@ -223,10 +223,8 @@ public class Final_Exam {
         //for new line
         System.out.println("");
            
-        
-        
-    }
+     }
     
- 
+// end methodes 
     
 }//end class
