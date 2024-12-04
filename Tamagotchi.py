@@ -141,7 +141,8 @@ class Parrot(Bird):
 
 class Canary(Bird):
     statments =["The food is delicious! Now I’ll sing my sweetest tunes 🎶","Wow! This food gives me the energy to fly!"]
-    
+
+#end classes
 #--------------------------METHODES--------------------------------------
 #adapet a pet
 def choice_a():
