@@ -55,8 +55,13 @@ class Pet:
         if self.boredom < 0: self.boredom = 0
         
     def feed(self):
-         self.reduce_hunger()
-        
+        self.reduce_hunger()
+ 
+        indexForStatments = randrange(len(self.statments)) 
+        randomStatment = self.statments[indexForStatments]
+        print(f"\n\t\t\t\t\t\t{randomStatment}\n\t\t\t\t\t\t\t\t~{self.randomdWord()}~")
+
+
     def reduce_hunger(self):
         if self.hunger > 0: self.hunger -= self.hunger_decrement
         if self.hunger < 0: self.hunger = 0
@@ -73,16 +78,7 @@ class Cat(Pet):
           ( o.o ) 
            > ^ <
               """)
-
-    def feed(self):
-        indexForStatments = randrange(len(self.statments)) 
-        statment = self.statments[indexForStatments]
-
-        super().feed()
-        print(f"\n\t\t\t\t\t\t{statment}\n\t\t\t\t\t\t\t\t~{super().randomdWord()}~")
-        
-
-   
+         
 #Dog
 class Dog(Pet):
     sounds = ["Woof"]
@@ -95,13 +91,6 @@ class Dog(Pet):
          /   (_____/
          /_____/   U
               """)
-
-    def feed(self):
-        indexForStatments = randrange(len(self.statments)) 
-        statment = self.statments[indexForStatments]
-
-        super().feed()
-        print(f"\n\t\t\t\t\t\t{statment}\n\t\t\t\t\t\t\t\t~{super().randomdWord()}~")
     
 #Bird
 class Bird(Pet):
@@ -115,18 +104,10 @@ class Bird(Pet):
              _|_
               """)
 
-    def feed(self):
-        indexForStatments = randrange(len(self.statments)) 
-        statment = self.statments[indexForStatments]
-
-        super().feed()
-        print(f"\n\t\t\t\t\t\t{statment}\n\t\t\t\t\t\t\t\t~{super().randomdWord()}~")
-
 #----------------------------sup classes 2---------------------------
 class Siamese(Cat):
     statments = ["The best food for a lively cat like me!","After this meal, I’ll be ready for a new chase!"]
    
-
 class Persian(Cat):
     statments = ["I always deserve the finest dishes!","I need a nap after this delicious meal."]
 
@@ -141,7 +122,8 @@ class Parrot(Bird):
 
 class Canary(Bird):
     statments =["The food is delicious! Now I’ll sing my sweetest tunes 🎶","Wow! This food gives me the energy to fly!"]
-    
+
+#end classes    
 #--------------------------METHODES--------------------------------------
 #adapet a pet
 def choice_a():
@@ -167,7 +149,7 @@ def choice_a():
 
                 else: #None of them
                     print("wrong selection try again")
-       # break            
+                    
                     
 #pet type menu
 def pet_type_menus():
