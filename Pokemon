@@ -1,0 +1,577 @@
+from random import randrange 
+#---------------------parents classes-------------------------------
+class Pokemon:
+    attack = 5 
+    
+    defense = 3
+    
+    healthCapacity = 10  #maximum amount a character can have
+    health = healthCapacity  # current state of character
+
+    type = "Normal"
+
+    #strong_vs = []
+
+    attack_boost = 2
+    defense_boost = 1
+    health_boost = 2
+    #evolution_threshold = 10 #num of level
+    numOfIncreaseHealth = 2 # while playing
+
+    def __init__(self,name ,level = 1):
+        self.name = name
+        self.__level = level
+
+    @property #getter
+    def level(self):
+        return self.__level
+    
+    @level.setter #setter
+    def level(self,value):
+        if value < 0 :
+            raise ValueError("Level must be greater than or equal to 1")
+        
+        self.__level = value
+
+    def train(self):
+        self.attack_capacity_up()
+        self.defense_capacity_up()
+        self.health_capacity_up()
+
+        self.level += 1
+        #evolve = self.level %  self.evolution_threshold  == 0    #true or false
+
+    #############################  increase the capacity  ################################
+    def attack_capacity_up(self):  #50
+        self.attack += self.attack_boost
+        if self.attack > 50: self.attack = 50
+
+        return self.attack
+    
+    def defense_capacity_up(self): #50
+         self.defense += self.defense_boost 
+         return self.defense
+    
+    def health_capacity_up(self): #100
+         self.healthCapacity += self.health_boost 
+         if self.healthCapacity > 100: self.healthCapacity = 100
+
+         return self.healthCapacity
+    #######################################################################################
+
+    #############################  decrease or increase health  while playing   #################################
+    def reduce_health_in_round(self,anotherPokemon):
+        self.health -= anotherPokemon.attack
+
+        if self.health < 0: self.health = 0
+            
+         
+    def increase_health_in_round(self):
+        self.health += self.numOfIncreaseHealth
+        #check if the health is larger than health capacity
+        if self.health > self.healthCapacity: self.health = self.healthCapacity
+    
+    ##############################################################################################################
+
+
+    def __str__(self):
+        return f"""\033[1m{self.name}\033[0m is \033[1m{self.type}\033[0m with \033[36m{self.level}\033[0m level 
+attack = \033[31m{self.attack}\033[0m health capacity = \033[32m{self.healthCapacity}\033[0m defense = \033[35m{self.defense}\033[0m"""
+    
+    
+    def health_Graph(self):
+        middlevalue =  self.healthCapacity // 2
+        middleOfMiddleValue = middlevalue // 2
+
+        if  self.health > middlevalue: # green
+            #{self.health} %
+            return [" _____________________",
+                    "|\033[42m                     \033[0m|",
+                    "|\033[42m                     \033[0m|",
+                    "|\033[42m_____________________\033[0m|"]
+                   
+                    
+        elif self.health <= middlevalue and self.health >= middleOfMiddleValue:  #yallow
+            return [" _____________________",
+                    "|\033[43m           \033[0m          |",
+                    "|\033[43m           \033[0m          |",
+                    "|\033[43m___________\033[0m__________|"]
+                   
+                    
+        elif self.health == 0:
+            return [" _____________________",
+                    "|                     |",
+                    "|                     |",
+                    "|_____________________|"]                   
+                    
+
+        else: #red
+          return [ "_____________________",
+                    "|\033[41m       \033[0m              |",
+                    "|\033[41m       \033[0m              |",
+                    "|\033[41m_______\033[0m______________|"]
+        
+
+    @classmethod
+    def shape(self):
+        return ["            ",
+                "\033[35m    (\_/)   \033[0m",
+                "\033[35m    (o.o)   \033[0m",
+                '\033[35m    (")(")  \033[0m']
+                   
+    
+#end parents classes
+
+#---------------------children classes-------------------------------
+class Pot(Pokemon):
+    healthCapacity = 50
+    health = healthCapacity
+    attack = 10
+    type = "pot"
+    
+    @classmethod
+    def shape(self):
+        return ["\033[1m\033[30m    .-^-. \033[0m",
+                "\033[1m\033[30m   / o o \  \033[0m",
+                '\033[1m\033[30m  |  v^v  |  \033[0m',
+                '\033[1m\033[30m   \_____/  \033[0m']
+
+class Fire(Pokemon):
+     
+    attack = 9
+    
+    defense = 7
+    
+    healthCapacity = 13
+    health = healthCapacity
+    type = "Fire"
+
+    #strong_vs = ["Grass","Normal"]
+
+    attack_boost = 4 #(train) num of increase in capacity
+    defense_boost = 1 #(train) num of increase in capacity
+    health_boost = 3 #(train) num of increase in capacity
+
+    #evolution_threshold = 16 #num of level
+    numOfIncreaseHealth = 3 # while playing
+
+    @classmethod
+    def shape(self):  #red
+        return ["            ",
+                "\033[1m\033[31m    (\(\       \033[0m",
+                "\033[1m\033[31m   ( o.o)   \033[0m",
+                '\033[1m\033[31m  o_(")(")  \033[0m']
+
+class Water(Pokemon):
+    attack = 10
+    
+    defenseCapacity = 8
+    
+    healthCapacity = 12
+    health = healthCapacity
+    type = "Water"
+
+    #strong_vs = ["Fire"]
+
+    attack_boost = 2 #(train) num of increase in capacity
+    defense_boost = 3 #(train) num of increase in capacity
+    health_boost = 2 #(train) num of increase in capacity
+
+    #evolution_threshold = 14 #num of level
+    numOfIncreaseHealth = 4 # while playing
+
+    @classmethod
+    def shape(self): #blue
+        return ["            ",
+                "\033[1m\033[36m    (\__/)   \033[0m",
+                "\033[1m\033[36m    (o^.^)   \033[0m",
+                '\033[1m\033[36m    z(_(")(")  \033[0m']
+
+class Grass(Pokemon):
+    attack = 7
+    
+    defense = 10
+    
+    healthCapacity = 15
+    health = healthCapacity
+    type = "Grass"
+
+    #strong_vs = ["Water"]
+
+    attack_boost = 2 #(train) num of increase in capacity
+    defense_boost = 2 #(train) num of increase in capacity
+    health_boost = 3 #(train) num of increase in capacity
+
+    #evolution_threshold = 12 #num of level
+    numOfIncreaseHealth = 5 # while playing
+
+    @classmethod
+    def shape(self): #green
+        return ["            ",
+                "\033[1m\033[32m    || ||   \033[0m",
+                "\033[1m\033[32m   ( o.o )   \033[0m",
+                '\033[1m\033[32m    || ||      \033[0m']
+
+#end children classes
+
+
+#------------------------- methodes ------------------------------
+def menu():
+    return [ """
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              Pokemon Game
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enter P --> to start playing
+Enter T --> to train your characters
+Enter B --> to buy a new character
+Enter V --> to view your characters
+Enter E --> to exit the game
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          """,
+          """
+\033[1;46m < PLAYER TURN > \033[0m
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                     game roles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Attacking --> Enter A           Healing   --> Enter H            Defending --> Enter D
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+back to menu --> Enter B
+
+          """]
+
+
+def ask_for_player_choice():
+    return input("Enter your choice: ").upper()
+
+#---------------------------------------------  play   ----------------------------------------------------------
+def ask_for_character():
+    while(True):
+        characterName = input("enter your character name: ").lower()
+        if characterName in playerCharacter:
+             return playerCharacter [characterName] #instance
+        else:
+            print("there is not character with this name\n")
+
+
+def attacking(pokemon1,pokemon2): #pokemon1 attack the pokemon2 
+    pokemon2.reduce_health_in_round(pokemon1) #pokemon2 health down
+    return "hhhhh i got you            "
+      
+
+
+def healing(pokemon1): # pokemon1 health up
+    pokemon1.increase_health_in_round()
+    return "healing...                  "
+   
+
+
+def defending():
+    return "you cannot got me hahaha"
+
+
+def pot_choice():
+    num = randrange(2)
+    lst = ["A","H","D"]
+    return lst[num]
+
+
+def randomPokemon():
+    num = randrange(len(potCharacter))
+    i = 0
+    for character in potCharacter:
+        if num == i:
+            return potCharacter[character]
+        i += 1
+
+
+def check_game_roles_and_call_method(choice,pokemon1,pokemon2):
+    while(True):
+        if choice == "A":
+           return attacking(pokemon1,pokemon2) 
+           
+        elif choice == "H":
+            return healing(pokemon1)
+            
+        elif choice == "D":
+            return defending()
+            
+def print_game_starting():
+    print(""" \033[1m \033[32m 
+\t\t\t ggggg   aaaa     mm  mm    eeeee      ssssss  ttttt   aaaa    rrrrr   ttttt  i   n   n  ggggg
+\t\t\t g       a    a  m   m   m  e         s          t    a    a   r   r     t    i   nn  n  g
+\t\t\t g  gg   aaaaaa  m   m   m  eeee      ssssss     t    aaaaaa   rrrr      t    i   n n n  g  gg
+\t\t\t g   g   a    a  m   m   m  e             s      t    a    a   r   r     t    i   n  nn  g   g
+\t\t\t ggggg   a    a  m   m   m  eeeee    ssssss      t    a    a   r   r     t    i   n   n  ggggg
+
+        \033[0m  """)
+    
+
+def round_floor():
+    return """\033[32m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+\033[0m"""
+
+def print_round_graph(method,player,pot): 
+    print(f"""
+\t\t\t\t\t\t\t \033[1m \033[34m {player.name} playing VS {pot.name} \033[0m
+\t\t         {player.health} % \t\t\t\t\t\t\t\t                          {pot.health} %
+\t\t{player.health_Graph()[0]} \t\t\t\t\t\t\t\t         {pot.health_Graph()[0]}
+\t\t{player.health_Graph()[1]} \t\t\t\t\t\t\t\t {pot.health_Graph()[1]}
+\t\t{player.health_Graph()[2]} \t\t\t\t\t\t\t\t {pot.health_Graph()[2]}
+\t\t{player.health_Graph()[3]} \t\t\t\t\t\t\t\t {pot.health_Graph()[3]}
+
+
+
+\t\t   { player.shape()[0]} \t\t\t\t\t\t\t\t\t      {pot.shape()[0]}
+\t\t   { player.shape()[1]} \t\t\t\t\t\t\t\t\t      {pot.shape()[1]}
+\t\t   { player.shape()[2]} \t\t\t{method}\t\t\t      {pot.shape()[2]}
+\t\t   { player.shape()[3]} \t\t\t\t\t\t\t\t\t      {pot.shape()[3]}
+{round_floor()}""")
+
+
+def play():
+    global coin 
+    print("choose your character")
+    player_Character()#print all the player character
+
+    player = ask_for_character() #instance of class
+    pot = randomPokemon() #instence of class
+
+    player.health = player.healthCapacity # reset health for player
+    pot.health = pot.healthCapacity # reset health for pot
+
+    print_game_starting()
+   
+    print_round_graph("                            ",player,pot) # print raound graph
+
+    while(True):
+        print(menu()[1]) #print game roles
+        choice = ask_for_player_choice() # A,H,D,B
+        if choice == "B": # back to minu
+            return
+        if choice not in ["A","H","D"]:
+            print("incorrect choice")
+            continue
+
+
+        # print player graph
+        methodPlayer =check_game_roles_and_call_method(choice,player,pot) #call attacking,healing,defending methodes for player
+        print_round_graph(methodPlayer ,player ,pot)
+        
+
+        # game over??
+        if pot.health == 0:
+            print(""" \t\t\t\t\t\t       \033[1m \033[32m   ~~~ you win ~~~ \033[0m 
+
+\t\t\t\t\t \033[31m attack ++      \033[32m helath capacity ++      \033[33m defense ++ \033[0m
+\t\t\t\t\t                       coin + 200                 """)
+            player.train() # increse level
+            coin += 200
+            break
+
+        
+        #print pot graph
+        print("\n\n\033[1;45;30m < POT TURN > \033[0m")
+        potChoice = pot_choice() #random choice A,H,D
+        methodPot = check_game_roles_and_call_method(potChoice,pot,player) #call attacking,healing,defending methodes for pot
+        print_round_graph(methodPot ,player ,pot)
+
+
+        # game over??
+        if player.health == 0:
+            print("\n\t\t\t\t\t\t       \033[1m \033[31m   ~~~ you lose ~~~ \033[0m")
+            break
+
+#---------------------------------------------  train   ----------------------------------------------------------
+def training():
+    global coin   
+    if coin >= 1000: 
+        print(f"\033[1m \033[36m your coin = {coin} \033[0m\n\t\t\t\t\t \033[31m \033[1m Pay '1000' \033[0m \n"
+              ,"\t\t\t\t \033[1m Enter P to Pay and C to cancel \033[0m")
+        
+        while(True):
+            choice = ask_for_player_choice()
+
+            if choice == "P":
+                    coin -= 1000
+                    print(f"\033[1m \033[36m your coin = {coin} \033[0m\n\nWhitch character do you want to train?")
+                    player_Character()
+                    inst = ask_for_character() # character instance
+                        
+
+                    print(f"""\033[1m_______________________________________
+            Boxing Zone 
+_______________________________________\033[0m
+        \033[36m        ||                                                   
+        \033[36m        ||                                          
+        \033[36m        ||                                          \033[31m attack ++      \033[32m helath capacity ++      \033[33m defense ++ \033[0m
+        \033[36m      __||___                                                                                 
+        \033[36m     /       \                                          
+        \033[36m    |         |                                                                           
+        \033[36m    |   ||    |       
+        \033[36m    |   ||    |  \033[0m    {(inst.shape()[1])}               
+        \033[36m    |   ||    |  \033[0m    {(inst.shape()[2])}              
+        \033[36m     \_______/   \033[0m    {(inst.shape()[3])} 
+
+                        """)
+                    
+                    inst.train()
+                    return
+
+            elif choice == "C":
+                return
+
+            else:
+                print("invalid input")
+                continue
+           
+        
+    else:
+        print("you do not have enough money!")
+        return
+    
+
+#---------------------------------------------  view   ----------------------------------------------------------
+def player_Character(): #print all the player character
+    print("\nyour character:")
+    i = 1
+    for character in playerCharacter:
+        print("\n",i,")",character , playerCharacter[character].shape()[0],
+            "\n"+playerCharacter[character].shape()[1],
+            "\n"+playerCharacter[character].shape()[2],
+            "\n"+playerCharacter[character].shape()[3])
+        i +=1
+
+        print( "\n\n",playerCharacter[character] ,"\n") # __Str__
+
+    print() #new line     
+
+#---------------------------------------------  buy   ----------------------------------------------------------
+def character_Store():
+  print( f"""
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+|                                                                       Character store                                                                        |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+|             Fire Pokemon             |             Water Pokemon             |             Grass Pokemon             |             Normal Pokemon            |  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+|              \033[31m  (\(\        \033[0m          |              \033[36m  (\__/)      \033[0m           |              \033[32m   || ||       \033[0m          |              \033[35m    (\_/)      \033[0m          |
+|              \033[31m  ( o.o)      \033[0m          |              \033[36m  (o^.^)      \033[0m           |              \033[32m  ( o.o )      \033[0m          |              \033[35m    (o.o)      \033[0m          | 
+|              \033[31m o_(")(")     \033[0m          |              \033[36m  z(_(")(")   \033[0m           |              \033[32m   || ||       \033[0m          |              \033[35m    (")(")     \033[0m          |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|              price = 550              |             price = 600              |             price = 500               |             price = 400               |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+your Coines = {coin}
+
+=======================
+= Fire   --> enter F  =
+= Water  --> enter W  =
+= Grass  --> entwr G  = 
+= Normal --> enter N  =
+======================== 
+
+back to menu --> Enter B
+
+""")
+
+def add_new_pokemon_to_dict( className ):
+    while(True):
+        name = input("enter your new pokemon name: ").lower()
+        if name not in playerCharacter:
+            print("adding "+name+" to your character...")
+            playerCharacter[name] = className(name)
+            break
+        else:
+            print("you already have "+name)
+
+
+def buy():
+    global coin 
+    msg = ["you do not have enough money","your coines after purchase = "]
+    character_Store()
+    className = Pokemon
+
+    while(True):
+        choice = ask_for_player_choice()
+        #check if there is money and buy the pokemon
+        if choice == "F":
+            if coin >= 550:
+               coin -= 550
+               className = Fire
+               print(msg[1]+ str(coin)) #coin after purchase
+               break
+            else:
+                print(msg[0])# there is not enough money
+                return
+
+        elif choice == "W":
+            if coin >= 600:
+               coin -= 600
+               className = Water
+               print(msg[1]+ str(coin)) #coin after purchase
+               break
+            else:
+                print(msg[0]) # there is not enough money
+                return
+
+        elif choice == "G":
+            if coin >= 500:
+               coin -= 500
+               className = Grass
+               print(msg[1]+ str(coin)) #coin after purchase
+               break
+            else:
+                print(msg[0]) # there is not enough money
+                return
+            
+        elif choice == "N":
+            if coin >= 400:
+               coin -= 400
+               #className = Pokemon
+               print(msg[1]+ str(coin)) #coin after purchase
+               break
+            else:
+                print(msg[0]) # there is not enough money
+                return
+            
+        elif choice == "B":
+            return
+        
+        else:
+            print("there is not pokemon with this name")
+    
+    add_new_pokemon_to_dict( className )
+
+#end methodes
+#------------------------main block----------------------------------
+coin = 3000
+
+playerCharacter = {"poky":Pokemon("poky")}
+potCharacter = {"ropot": Pot("ropot")}
+while(True):
+    print(menu()[0])
+    choice = ask_for_player_choice()
+
+    if choice == "P":
+        play()
+
+    elif choice == "T":
+        training()
+
+    elif choice == "B":
+        buy()
+
+    elif choice == "V":
+        player_Character()
+
+    elif choice == "E":
+        print("Exiting the game...")
+        exit()
+
+    else:
+        print("wrong selection try again")
+
+#end main block
+
+
